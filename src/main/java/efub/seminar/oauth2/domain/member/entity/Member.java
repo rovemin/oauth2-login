@@ -1,4 +1,4 @@
-package efub.seminar.oauth2.member.entity;
+package efub.seminar.oauth2.domain.member.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,9 +23,13 @@ public class Member {
     private String email;
 
     @Builder
-
     public Member(String name, String email) {
         this.name = name;
         this.email = email;
+    }
+
+    public Member update(String name) {
+        this.name = name;
+        return this;
     }
 }
