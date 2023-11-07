@@ -1,6 +1,6 @@
 package efub.seminar.oauth2.config.auth.dto;
 
-import efub.seminar.oauth2.domain.member.entity.Member;
+import efub.seminar.oauth2.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -34,8 +34,8 @@ public class OAuthAttributes {
                 .build();
     }
 
-    public Member toEntity() {
-        return Member.builder()
+    public User toEntity() {
+        return User.builder()
                 .name(name)
                 .email(email)
                 .build();

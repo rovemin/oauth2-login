@@ -2,8 +2,8 @@ package efub.seminar.oauth2.config.auth;
 
 import efub.seminar.oauth2.config.auth.dto.OAuthAttributes;
 import efub.seminar.oauth2.config.auth.dto.SessionUser;
-import efub.seminar.oauth2.domain.member.entity.Member;
-import efub.seminar.oauth2.domain.member.repository.MemberRepository;
+import efub.seminar.oauth2.domain.user.entity.User;
+import efub.seminar.oauth2.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -21,7 +21,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
     private final HttpSession httpSession;
 
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -34,19 +34,19 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        Member member = saveOrUpdate(attributes);
+        User user = saveOrUpdate(attributes);
 
-        httpSession.setAttribute("user", new SessionUser(member));
+        httpSession.setAttribute("user", new SessionUser(user));
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("user")),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey());
     }
-    private Member saveOrUpdate(OAuthAttributes attributes) {
-        Member member = memberRepository.findByEmail(attributes.getEmail())
+    private User saveOrUpdate(OAuthAttributes attributes) {
+        User user = userRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName()))
                 .orElse(attributes.toEntity());
-        return memberRepository.save(member);
+        return userRepository.save(user);
     }
 }

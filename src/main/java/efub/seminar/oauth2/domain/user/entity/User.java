@@ -1,4 +1,4 @@
-package efub.seminar.oauth2.domain.member.entity;
+package efub.seminar.oauth2.domain.user.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,11 +10,11 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id", updatable = false)
-    private Long memberId;
+    @Column(name = "user_id", updatable = false)
+    private Long userId;
 
     @Column(nullable = false)
     private String name;
@@ -23,12 +23,12 @@ public class Member {
     private String email;
 
     @Builder
-    public Member(String name, String email) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
     }
 
-    public Member update(String name) {
+    public User update(String name) {
         this.name = name;
         return this;
     }

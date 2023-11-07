@@ -1,6 +1,6 @@
 package efub.seminar.oauth2.config.auth.dto;
 
-import efub.seminar.oauth2.domain.member.entity.Member;
+import efub.seminar.oauth2.domain.user.entity.User;
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -10,7 +10,7 @@ public class SessionUser implements Serializable {
     private String name;
     private String email;
 
-    public SessionUser(Member member) {
+    public SessionUser(User member) {
         this.name = member.getName();
         this.email = member.getEmail();
     }
